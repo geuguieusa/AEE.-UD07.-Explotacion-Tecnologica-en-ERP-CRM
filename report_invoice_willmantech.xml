@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="report_invoice_willmantech_action" model="ir.actions.report">
+        <field name="name">Factura WillmanTech S.L.</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account.report_invoice_willmantech</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+    </record>
+    
+    <template id="report_invoice_willmantech"
+              inherit_id="account.report_invoice_document">
+        
+        <xpath expr="//span[@name='invoice_title']" position="replace">
+            <span>
+                Factura WillmanTech S.L. —
+                <t t-field="o.name"/>
+            </span>
+        </xpath>
+        
+        <xpath expr="//div[@name='invoice_date']" position="replace">
+            <div name="invoice_date">
+                <strong>Fecha de emisión:</strong>
+                <span t-field="o.invoice_date"/>
+            </div>
+        </xpath>
+        
+        <xpath expr="//th[@name='th_description']" position="replace">
+            <th name="th_description" class="text-start">Descripción</th>
+        </xpath>
+        
+        <xpath expr="//th[@name='th_quantity']" position="replace">
+            <th name="th_quantity" class="text-end">Cantidad</th>
+        </xpath>
+        
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-end">Precio unit.</th>
+        </xpath>
+        
+        <xpath expr="//th[@name='th_discount']" position="replace">
+            <th name="th_discount" t-if="display_discount" class="text-end">Dto. %</th>
+        </xpath>
+        
+        <xpath expr="//th[@name='th_subtotal']" position="replace">
+            <th name="th_subtotal" class="text-end">Subtotal</th>
+        </xpath>
+        
+        <xpath expr="//span[@t-field='o.amount_residual']" position="after">
+            <tr>
+                <td><strong>Total neto:</strong></td>
+                <td class="text-end">
+                    <span t-field="o.amount_total"
+                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </td>
+            </tr>
+        </xpath>
+        
+    </template>  
+</odoo>
