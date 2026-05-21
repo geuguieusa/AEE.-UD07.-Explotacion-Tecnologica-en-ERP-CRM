@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="report_invoice_willmantech_action" model="ir.actions.report">
+        <field name="name">Factura WillmanTech S.L.</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account.report_invoice_willmantech</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+    </record>
+    
+    <template id="report_invoice_willmantech">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        
+                        <h2>
+                            <span>Factura WillmanTech S.L. — </span>
+                            <span t-field="doc.name"/>
+                        </h2>
+                        
+                        <div id="informations" class="row mt-4 mb-4">
+                            <div class="col-auto mw-100 mb-2" name="invoice_date">
+                                <strong>Fecha de emisión:</strong>
+                                <p class="m-0" t-field="doc.invoice_date"/>
+                            </div>
+                        </div>
+
+                        <t t-set="display_discount" t-value="any(line.discount > 0 for line in doc.invoice_line_ids)"/>
+                        
+                        <table class="table table-sm o_main_table" name="invoice_line_table">
+                            <thead>
+                                <tr>
+                                    <th name="th_description" class="text-start">Descripción</th>
+                                    <th name="th_quantity" class="text-end">Cantidad</th>
+                                    <th name="th_priceunit" class="text-end">Precio unit.</th>
+                                    <th name="th_discount" t-if="display_discount" class="text-end">Dto. %</th>
+                                    <th name="th_subtotal" class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td name="account_invoice_line_name"><span t-field="line.name"/></td>
+                                        <td class="text-end"><span t-field="line.quantity"/></td>
+                                        <td class="text-end"><span t-field="line.price_unit"/></td>
+                                        <td t-if="display_discount" class="text-end">
+                                            <span t-field="line.discount"/>
+                                        </td>
+                                        <td class="text-end o_price_total">
+                                            <span t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        
+                        <div class="clearfix mb-4">
+                            <div id="total" class="row">
+                                <div class="col-6 ms-auto">
+                                    <table class="table table-sm table-borderless" style="page-break-inside: avoid;">
+                                        <tr class="border-black o_total">
+                                            <td><strong>Total neto:</strong></td>
+                                            <td class="text-end">
+                                                <span t-field="doc.amount_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>  
+</odoo>
