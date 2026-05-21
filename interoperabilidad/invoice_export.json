@@ -1,0 +1,32 @@
+[
+  {
+    "invoice_id": "INV/2026/0001",
+    "issue_date": "2026-05-20",
+    "customer": {
+      "id_cliente": 145,
+      "nombre": "Cliente Ejemplo S.A.",
+      "email": "contacto@clienteejemplo.com"
+    },
+    "lines": [
+      {
+        "id_producto": 234,
+        "descripcion": "Consultoría e implantación de ERP",
+        "cantidad": 2,
+        "unit_price": 120.00,
+        "porcentaje_descuento": 0.0,
+        "subtotal": 1200.00
+      },
+      {
+        "id_producto": 143,
+        "descripcion": "Licencia Módulo CRM Anual",
+        "cantidad": 3,
+        "unit_price": 500.00,
+        "porcentaje_descuento": 10,
+        "subtotal": 450.00
+      }
+    ],
+    "tax_base": 1650.00,
+    "taxes": 346.50,
+    "total_amount": 1996.50
+  }
+]
